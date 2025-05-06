@@ -1,5 +1,5 @@
 app:
-  name: http-app
+  name: yokai-es-app
   version: 0.1.0
 modules:
   core:
@@ -43,6 +43,26 @@ modules:
         modules:
           expose: true
   http:
+    client:
+      timeout: 30                            # in seconds, 30 by default
+      log:
+        request:
+          enabled: true                      # to log request details, disabled by default
+          body: false                         # to add request body to request details, disabled by default
+          level: info                        # log level for request logging
+        response:
+          enabled: true                      # to log response details, disabled by default
+          body: false                         # to add response body to request details, disabled by default
+          level: info                        # log level for response logging
+          level_from_response: true          # to use response code for response logging
+      trace:
+        enabled: true                        # to trace http calls, disabled by default
+      metrics:
+        collect:
+          enabled: true                      # to collect http client metrics
+        normalize:
+          request_path: true                 # to normalize http request path, disabled by default
+          response_status: true
     server:
       address: ":8080"
       trace:
@@ -58,4 +78,9 @@ modules:
     output: stdout
   trace:
     processor:
-      type: noop
+      type: otlp-grpc
+      options:
+        host: ${OTLP_COLLECTOR_HOST}:${OTLP_COLLECTOR_PORT}
+  elastic:
+    cloud_id: ${ELASTICSEARCH_CLOUD_ID}
+    api_key: ${ELASTICSEARCH_API_KEY}

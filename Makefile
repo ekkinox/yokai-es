@@ -23,7 +23,3 @@ test:
 
 lint:
 	golangci-lint run -v
-
-rename:
-	find . -type f ! -path "./.git/*" ! -path "./build/*" ! -path "./Makefile" -exec sed -i.bak -e "s|github.com/ankorstore/yokai-http-template|github.com/$(to)|g" {} \;
-	find . -type f -name "*.bak" -delete

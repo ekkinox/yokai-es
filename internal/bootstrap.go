@@ -7,7 +7,9 @@ import (
 
 	"github.com/ankorstore/yokai/fxconfig"
 	"github.com/ankorstore/yokai/fxcore"
+	"github.com/ankorstore/yokai/fxhttpclient"
 	"github.com/ankorstore/yokai/fxhttpserver"
+	"github.com/ekkinox/yokai-es/pkg/elastic"
 	"go.uber.org/fx"
 )
 
@@ -22,6 +24,8 @@ var RootDir string
 var Bootstrapper = fxcore.NewBootstrapper().WithOptions(
 	// modules registration
 	fxhttpserver.FxHttpServerModule,
+	fxhttpclient.FxHttpClientModule,
+	elastic.ElasticModule,
 	// dependencies registration
 	Register(),
 	// routing registration
